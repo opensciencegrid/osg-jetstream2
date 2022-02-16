@@ -1,0 +1,4 @@
+
+
+  12 * * * *   root   docker system prune --all --force >/dev/null 2>&1
+

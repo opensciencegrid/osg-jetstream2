@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+if [ ! -e /opt/fastapi/venv ]; then
+    mkdir -p /opt/fastapi
+    python3 -m venv /opt/fastapi/venv
+    . /opt/fastapi/venv/bin/activate
+    python3 -m pip install --upgrade pip
+    python3 -m pip install fastapi[all] openstacksdk python-dateutil
+else
+    . /opt/fastapi/venv/bin/activate
+fi
+
+cd /srv/osg-jetstream2/salt/restapi
+uvicorn restapi:app --host 0.0.0.0 --port 8111 2>&1 | tee /var/log/restapi.log
+

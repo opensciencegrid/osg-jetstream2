@@ -1,0 +1,5 @@
+CVMFS_QUOTA_LIMIT=15000
+
+CVMFS_REPOSITORIES="`echo $((echo oasis.opensciencegrid.org;echo singularity.opensciencegrid.org;echo stash.osgstorage.org;ls /cvmfs)|sort -u)|tr ' ' ,`"
+CVMFS_HTTP_PROXY="http://frontier-squid:3128"
+

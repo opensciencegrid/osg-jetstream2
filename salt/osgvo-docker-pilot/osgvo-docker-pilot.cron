@@ -1,0 +1,3 @@
+
+*/2 * * * *  root  /usr/sbin/osgvo-check-shutdown
+

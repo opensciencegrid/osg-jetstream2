@@ -1,0 +1,3 @@
+
+ */20 * * * *  root  curl "http://control:8111/autoscale/?token={{ pillar['restapi_token'] }}" >>/var/log/restapi-cron.log 2>&1
+

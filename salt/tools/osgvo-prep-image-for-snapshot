@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+rm -f /etc/cron.d/salt
+rm -f /etc/cron.d/osgvo-docker-pilot
+
+yum upgrade --nobest -y
+yum clean all -y
+docker system prune -a -f
+
+
+salt-call --state-verbose=false state.highstate
+
+rm -rf /var/log/*
+

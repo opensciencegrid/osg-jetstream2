@@ -1,0 +1,26 @@
+# https://fardog.io/blog/2017/12/30/running-docker-containers-with-systemd/
+
+[Unit]
+
+Description=osg-worker
+#After=docker.service
+#Requires=docker.service
+
+
+[Service]
+
+TimeoutStartSec=0
+Restart=always
+
+ExecStartPre=-/usr/bin/docker kill osg-worker
+ExecStartPre=-/usr/bin/docker rm osg-worker 
+ExecStartPre=-/usr/bin/docker pull opensciencegrid/osgvo-docker-pilot:release
+
+ExecStart=/usr/bin/run-osgvo-docker-pilot-container
+ExecStop=/usr/bin/docker stop osg-worker
+
+
+[Install]
+
+WantedBy=multi-user.target
+

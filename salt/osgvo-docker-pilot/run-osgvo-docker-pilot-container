@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# ignore startup requests after a system has been running for a while
+UPTIME=$(cat /proc/uptime | sed 's/[\. ].*//')
+if [ $UPTIME -gt 900 ]; then
+    echo "Ignoring request - system has been running for too long already!" 2>&1
+    exit 0
+fi
+
+# pre-seed /cvmfs - not sure if this is needed anymore
+for FS in \
+   ams.cern.ch \
+   atlas.cern.ch \
+   cms.cern.ch \
+   connect.opensciencegrid.org \
+   desdm.osgstorage.org \
+   eic.opensciencegrid.org \
+   gwosc.osgstorage.org \
+   icecube.opensciencegrid.org \
+   nexo.opensciencegrid.org \
+   oasis.opensciencegrid.org \
+   singularity.opensciencegrid.org \
+   snoplus.egi.eu \
+   sphenix.opensciencegrid.org \
+   spt.opensciencegrid.org \
+   stash.osgstorage.org \
+   veritas.opensciencegrid.org \
+   xenon.opensciencegrid.org \
+   sw.lsst.eu \
+; do
+    ls -l /cvmfs/$FS/ >/dev/null 2>&1
+done
+
+docker pull hub.opensciencegrid.org/opensciencegrid/osgvo-docker-pilot:release
+
+# note that the timeout command and the ACCEPT_JOBS_FOR_HOURS
+# needs to line up, with the timeout being something like
+# 24 hours extra
+timeout 96h \
+   docker run --name osg-worker --rm --user 1000 \
+       --privileged \
+       -v /cvmfs:/cvmfs \
+       -e TOKEN=$(cat /tmp/osgvo-token.txt) \
+       -e GLIDEIN_Site="Pervasive Technology Institute" \
+       -e GLIDEIN_ResourceName="IU-Jetstream2-Backfill" \
+       -e GLIDEIN_Start_Extra='True' \
+       -e OSG_SQUID_LOCATION="frontier-squid.js2local:3128" \
+       -e ACCEPT_IDLE_MINUTES=15 \
+       -e ACCEPT_JOBS_FOR_HOURS=12 \
+       hub.opensciencegrid.org/opensciencegrid/osgvo-docker-pilot:release
+ 
+

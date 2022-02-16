@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# ignore shutdown in the beginning of the uptime - let's the system settle down
+UPTIME=$(cat /proc/uptime | sed 's/[\. ].*//')
+if [ $UPTIME -lt 600 ]; then
+    exit 0
+fi
+
+DOCKER_COUNT=$(docker ps --quiet | wc -l)
+if [ $DOCKER_COUNT -gt 0 ]; then
+    exit 0
+fi
+
+# if nobody is logged in (debugging), shut down the VM
+USER_COUNT=$(w --no-header | wc -l)
+if [ $USER_COUNT -gt 0 ]; then
+    exit 0
+fi
+
+logger "Shutting down node due to lack of work!"
+
+/sbin/shutdown -h now
+
