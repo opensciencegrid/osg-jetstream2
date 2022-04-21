@@ -4,6 +4,7 @@ base:
     - salt
     - base-os
     - cloud-init
+    - tmpwatch
     - users
     - osg
     - docker

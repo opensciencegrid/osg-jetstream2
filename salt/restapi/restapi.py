@@ -15,8 +15,8 @@ from fastapi.responses import HTMLResponse
 from pprint import pprint
 
 # consts
-MAX_INSTANCES_TOTAL = 60
-MAX_INSTANCES_AUTOSCALE = 10
+MAX_INSTANCES_TOTAL = 95
+MAX_INSTANCES_AUTOSCALE = 77
 
 app = FastAPI()
 
