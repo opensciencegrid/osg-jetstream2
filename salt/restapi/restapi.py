@@ -15,8 +15,8 @@ from fastapi.responses import HTMLResponse
 from pprint import pprint
 
 # consts
-MAX_INSTANCES_TOTAL = 95
-MAX_INSTANCES_AUTOSCALE = 77
+MAX_INSTANCES_TOTAL = 160
+MAX_INSTANCES_AUTOSCALE = 160
 
 app = FastAPI()
 
@@ -178,8 +178,10 @@ async def status(token: str):
     i = instances()
 
     # slow start
-    max_add = i["counts"]["total_instances"] * 2 + 1
-    max_add = min(max_add, 10)
+    max_add = 1
+    if i["counts"]["total_instances"] > 5:
+        max_add = i["counts"]["total_instances"] // 2
+        max_add = min(max_add, 20)
 
     delta = MAX_INSTANCES_AUTOSCALE - i["counts"]["total_instances"]
 

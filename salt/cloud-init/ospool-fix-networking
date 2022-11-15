@@ -1,0 +1,11 @@
+#!/bin/bash
+
+hostname_value=$(curl -s http://169.254.169.254/latest/meta-data/hostname | sed 's/novalocal/js2local/')
+
+if [ -z $hostname_value ]; then
+    logger "ospool-fix-netorking: Unable to detemine hostname"
+else
+    hostname $hostname_value
+    echo $hostname_value > /etc/hostname
+fi
+

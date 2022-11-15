@@ -14,7 +14,6 @@ Restart=always
 
 ExecStartPre=-/usr/bin/docker kill osg-worker
 ExecStartPre=-/usr/bin/docker rm osg-worker 
-ExecStartPre=-/usr/bin/docker pull opensciencegrid/osgvo-docker-pilot:release
 
 ExecStart=/usr/bin/run-osgvo-docker-pilot-container
 ExecStop=/usr/bin/docker stop osg-worker

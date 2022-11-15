@@ -31,7 +31,7 @@ for FS in \
     ls -l /cvmfs/$FS/ >/dev/null 2>&1
 done
 
-docker pull hub.opensciencegrid.org/opensciencegrid/osgvo-docker-pilot:release
+docker pull hub.opensciencegrid.org/opensciencegrid/osgvo-docker-pilot:3.6-release
 
 # START allows jobs using 2 times the cpu/core - we don't want to go higher
 # than that as it will allow for a lot of cores sitting idle
@@ -50,6 +50,6 @@ timeout 96h \
        -e OSG_SQUID_LOCATION="frontier-squid.js2local:3128" \
        -e ACCEPT_IDLE_MINUTES=30 \
        -e ACCEPT_JOBS_FOR_HOURS=72 \
-       hub.opensciencegrid.org/opensciencegrid/osgvo-docker-pilot:release
+       hub.opensciencegrid.org/opensciencegrid/osgvo-docker-pilot:3.6-release
  
 

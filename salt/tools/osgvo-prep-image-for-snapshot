@@ -7,10 +7,12 @@ rm -f /etc/cron.d/osgvo-docker-pilot
 
 yum upgrade --nobest -y
 yum clean all -y
+
 docker system prune -a -f
 
-
 salt-call --state-verbose=false state.highstate
+
+docker system prune -a -f
 
 rm -rf /var/log/*
 
