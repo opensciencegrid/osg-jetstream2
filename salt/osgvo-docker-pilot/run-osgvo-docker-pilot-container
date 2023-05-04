@@ -39,17 +39,18 @@ docker pull hub.opensciencegrid.org/opensciencegrid/osgvo-docker-pilot:3.6-relea
 # note that the timeout command and the ACCEPT_JOBS_FOR_HOURS
 # needs to line up, with the timeout being something like
 # 24 hours extra
-timeout 96h \
+timeout 120h \
    docker run --name osg-worker --rm --user 1000 \
        --privileged \
        -v /cvmfs:/cvmfs \
        -e TOKEN=$(cat /tmp/osgvo-token.txt) \
+       -e SINGULARITY_DISABLE_PID_NAMESPACES="1" \
        -e GLIDEIN_Site="Pervasive Technology Institute" \
        -e GLIDEIN_ResourceName="IU-Jetstream2-Backfill" \
-       -e GLIDEIN_Start_Extra='(TARGET.RequestMemory < (TARGET.RequestCPUs * 2 * MY.TotalMemory / MY.DetectedCpus))' \
+       -e GLIDEIN_Start_Extra='(TARGET.RequestMemory < (TARGET.RequestCPUs * 3 * MY.TotalMemory / MY.DetectedCpus))' \
        -e OSG_SQUID_LOCATION="frontier-squid.js2local:3128" \
-       -e ACCEPT_IDLE_MINUTES=30 \
-       -e ACCEPT_JOBS_FOR_HOURS=72 \
+       -e ACCEPT_IDLE_MINUTES=60 \
+       -e ACCEPT_JOBS_FOR_HOURS=96 \
        hub.opensciencegrid.org/opensciencegrid/osgvo-docker-pilot:3.6-release
  
 

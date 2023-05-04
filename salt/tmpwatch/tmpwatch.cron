@@ -1,4 +1,4 @@
 
 0 4 * * *  root  tmpwatch 5d /tmp/ >/dev/null 2>&1
-0 5 * * *  root  tmpwatch 1d /var/lib/ganglia/rrds/ >/dev/null 2>&1
+0 5 * * *  root  tmpwatch 10d /var/lib/ganglia/rrds/ >/dev/null 2>&1
 

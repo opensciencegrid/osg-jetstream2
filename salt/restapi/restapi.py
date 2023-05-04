@@ -15,8 +15,8 @@ from fastapi.responses import HTMLResponse
 from pprint import pprint
 
 # consts
-MAX_INSTANCES_TOTAL = 160
-MAX_INSTANCES_AUTOSCALE = 160
+MAX_INSTANCES_TOTAL = 240
+MAX_INSTANCES_AUTOSCALE = 210
 
 app = FastAPI()
 
@@ -92,7 +92,7 @@ def add(n):
             image_selected = i
     print('Selected %s for a new instance' %(image_selected.name))
 
-    flavor = cloud.compute.find_flavor('m3.medium')
+    flavor = cloud.compute.find_flavor('m3.large')
 
     network = cloud.network.find_network('private')
 
@@ -179,9 +179,9 @@ async def status(token: str):
 
     # slow start
     max_add = 1
-    if i["counts"]["total_instances"] > 5:
+    if i["counts"]["total_instances"] > 10:
         max_add = i["counts"]["total_instances"] // 2
-        max_add = min(max_add, 20)
+        max_add = min(max_add, 10)
 
     delta = MAX_INSTANCES_AUTOSCALE - i["counts"]["total_instances"]
 

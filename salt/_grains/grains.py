@@ -19,7 +19,7 @@ def custom_grains():
         grains['roles'].append('frontier-squid')
     elif re.search('worker', hostname, re.IGNORECASE):
         grains['roles'].append('worker')
-    elif re.search('update', hostname, re.IGNORECASE):
+    elif re.search('update|upgrade', hostname, re.IGNORECASE):
         grains['roles'].append('worker')
 
     return grains

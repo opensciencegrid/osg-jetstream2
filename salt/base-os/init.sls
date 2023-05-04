@@ -1,14 +1,14 @@
 
-
-# no firewalls on the nodes
-firewalld:
-  service.dead:
-    - enable: False
-
-# no dnf-automatic
-dnf-automatic:
-  service.dead:
-    - enable: False
+# keep the cluster lean
+base-os.remove-packages:
+  pkg.removed:
+    - pkgs:
+      - avahi
+      - cups
+      - dnf-automatic
+      - firewalld
+      - pulseaudio
+      - smartmontools
 
 /etc/selinux/config:
   file.managed:
